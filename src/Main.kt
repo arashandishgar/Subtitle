@@ -3,28 +3,27 @@ import java.io.File
 fun run() {
     println("path")
     val basePath = readLine()?.replace("\\", "/")
-    println("subtittle_extention")
-    val stirngSubtitleAdded = readLine()
-    (stirngSubtitleAdded == null).println()
     val file = File(basePath)
-    file.listFiles().filter { it.extension == "mp4" }.forEach {
-        it.renameTo(
-            File(
-                basePath + "/" + it.nameWithoutExtension + stirngSubtitleAdded + ".mp4"
-            )
-        )
-    }
+    val subtitlesFile=   file.listFiles().filter { it.extension == "srt" }.toMutableList()
     file.listFiles().filter { it.extension == "mp4" }.forEach { fileMp4 ->
-        file.listFiles().filter { it.extension == "srt" }.forEach {
-            if (fileMp4.nameWithoutExtension.split("-")[1] == it.nameWithoutExtension.split("-")[1]) {
-                println(basePath + "/" + (fileMp4.name.split("-")[1]) + "-" + it.name.substringAfter("-"))
-                it.renameTo(File(basePath + "/" + (fileMp4.name.split("-")[0]) + "-" + it.name.substringAfter("-")))
+        var it1:File?=null
+        it1?:subtitlesFile.remove(it1)
+        subtitlesFile.forEach() {
+            if (condition(fileMp4,it)) {
+                it1=it
+                println(basePath+"/"+fileMp4.nameWithoutExtension+".srt")
+                it.renameTo(File(basePath+"/"+fileMp4.nameWithoutExtension+".srt"))
+
             }
 
         }
     }
 }
 
-private fun Any?.println() {
+fun condition(fileMp4:File, it:File)=
+    fileMp4.nameWithoutExtension.split("-")[1] .contains(it.nameWithoutExtension.split("-")[1]) or it.nameWithoutExtension.split("-")[1] .contains(fileMp4.nameWithoutExtension.split("-")[1])
+
+
+fun Any?.println() {
     println(this)
 }
